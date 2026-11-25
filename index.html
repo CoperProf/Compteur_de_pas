@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Les Tobogogans – Défi des pas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="#top"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3v18M5 7h4M5 12h4M9 3c1.5 10 6 14 12 15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>Les Tobogogans</a>
+  <nav aria-label="Navigation"><a href="#semaine">Semaine</a><a href="#mois">Mois</a><a href="#equipes">Équipes</a><a href="#reglement">Règlement</a><button type="button" class="admlink" id="admOpen">Administration</button></nav>
+</div></header>
+
+<main id="top">
+<div class="wrap intro">
+  <p class="date" id="today"></p>
+  <h1>Défi des pas</h1>
+  <p class="txt">Les collègues marchent par équipes de deux. Le score d'une équipe est la somme des pas de ses deux membres, semaine par semaine. Les équipes sont tirées au sort au début de chaque mois.</p>
+  <dl class="facts" id="facts"></dl>
+</div>
+
+<section id="semaine"><div class="wrap">
+  <div class="head">
+    <div><h2>Classement de la semaine</h2><p>Pas de la personne A + pas de la personne B, du lundi au dimanche.</p></div>
+    <label for="mSel">Mois<select id="mSel"></select></label>
+  </div>
+  <div class="tabs scroll" id="weekTabs" role="group" aria-label="Semaine"></div>
+  <div id="weekTable"></div>
+</div></section>
+
+<section id="mois"><div class="wrap">
+  <div class="head"><div><h2 id="monthTitle">Classement du mois</h2><p>Somme des scores hebdomadaires de chaque équipe.</p></div></div>
+  <div id="monthTable"></div>
+  <p class="note">Une semaine compte pour le mois de son lundi.</p>
+</div></section>
+
+<section id="equipes"><div class="wrap">
+  <div class="head"><div><h2 id="teamTitle">Équipes du mois</h2><p>Tirées au sort par l'administration, sans reformer une équipe du mois précédent.</p></div></div>
+  <div id="teams"></div>
+</div></section>
+
+<section id="reglement"><div class="wrap">
+  <h2 style="margin-bottom:20px">Règlement</h2>
+  <dl class="rules">
+    <div><dt>Équipes</dt><dd>Le premier jour du mois, l'administration tire les équipes au sort. Chacun change de partenaire tous les mois.</dd></div>
+    <div><dt>Score de la semaine</dt><dd>La somme des pas des deux membres, du lundi au dimanche. Le plus grand total remporte la semaine.</dd></div>
+    <div><dt>Score du mois</dt><dd>La somme des scores hebdomadaires de l'équipe sur le mois.</dd></div>
+    <div><dt>Encodage</dt><dd>Les pas sont relevés chaque semaine et encodés uniquement par l'administration.</dd></div>
+  </dl>
+</div></section>
+
+<section id="admin" hidden aria-label="Administration"><div class="wrap">
+  <div class="head">
+    <div><p class="admtag">Administration</p><h2>Gestion du défi</h2></div>
+    <button class="btn sec" type="button" id="admOut">Se déconnecter</button>
+  </div>
+
+  <div class="blk">
+    <h3>Tirage des équipes</h3>
+    <p class="note" style="margin-top:4px">À faire au début de chaque mois. Le tirage reste modifiable tant que la première semaine du mois n'a pas commencé.</p>
+    <div class="bar">
+      <label for="gMonth">Mois<select id="gMonth"></select></label>
+      <label class="chk"><input type="checkbox" id="gAvoid" checked>Éviter les équipes du mois précédent</label>
+      <span class="sp"></span>
+      <button class="btn sec" type="button" id="gDraw">Tirer au sort</button>
+    </div>
+    <p class="status" id="gStatus"></p>
+    <div id="gPreview" style="margin-top:12px"></div>
+    <div class="bar" id="gActions" hidden>
+      <p class="msg" id="gMsg" role="status"></p><span class="sp"></span>
+      <button class="btn sec" type="button" id="gRedo">Relancer</button>
+      <button class="btn" type="button" id="gSave">Valider les équipes</button>
+    </div>
+  </div>
+
+  <div class="blk">
+    <h3>Encodage des pas</h3>
+    <div class="bar">
+      <label for="aMonth">Mois<select id="aMonth"></select></label>
+      <label for="aWeek">Semaine<select id="aWeek"></select></label>
+      <span class="sp"></span>
+      <button class="btn sec" type="button" id="reset">Revenir aux données d'exemple</button>
+    </div>
+    <form id="admForm" novalidate>
+      <div class="scroll" id="admGrid"></div>
+      <div class="bar">
+        <p class="msg" id="admMsg" role="status"></p><span class="sp"></span>
+        <button class="btn sec" type="button" id="admUndo">Annuler les modifications</button>
+        <button class="btn" type="submit" id="admSave">Enregistrer la semaine</button>
+      </div>
+    </form>
+  </div>
+</div></section>
+</main>
+
+<dialog id="dlg" aria-labelledby="dlgT">
+  <form id="dlgForm" novalidate>
+    <h3 id="dlgT">Administration</h3>
+    <p>Entrez le code d'accès.</p>
+    <label for="dlgCode">Code<input id="dlgCode" type="password" autocomplete="current-password"></label>
+    <p class="msg err" id="dlgMsg" role="alert"></p>
+    <p class="note" style="margin:0">Démonstration : admin2026</p>
+    <div class="dact"><button class="btn sec" type="button" id="dlgCancel">Annuler</button><button class="btn" type="submit">Se connecter</button></div>
+  </form>
+</dialog>
+
+<footer><div class="wrap"><span>Les Tobogogans · défi interne · données d'exemple</span><a href="#top">Haut de page</a></div></footer>
+
+<script src="script.js"></script>
+</body>
+</html>
